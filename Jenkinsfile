@@ -27,8 +27,11 @@ pipeline {
         stage('Despliegue') {
             steps {
                 script {
-                    // Ejemplo de despliegue en un contenedor local
-                    sh 'docker run -d -p 3001:3000 mi-aplicacion-node'
+                    // Comandos SSH para ejecutar en el servidor remoto con archivo .pem
+                    sshagent(credentials: ['server docker']) {
+                        // Reemplaza 'usuario@servidor' con tu usuario y dirección IP o nombre del servidor SSH
+                        sh 'ssh -i /home/lab-cristian2023.pem ubuntu@54.91.37.71 "docker run -d -p 3001:3000 mi-aplicacion-node"'
+                    }
                 }
             }
         }
